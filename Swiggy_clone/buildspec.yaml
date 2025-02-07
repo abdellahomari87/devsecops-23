@@ -53,7 +53,6 @@ phases:
 
 post_build:
   commands:
-    - |
     - aws ses send-email \
         --from "abdellah.omari87@gmail.com" \
         --to "abdellah.omari88@gmail.com" \
