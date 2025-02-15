@@ -62,4 +62,4 @@ post_build:
 
 artifacts:
   files:
-    - appspec.yaml
+    - Swiggy_clone/appspec.yaml
