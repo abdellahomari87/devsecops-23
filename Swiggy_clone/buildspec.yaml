@@ -15,10 +15,10 @@ phases:
 
   pre_build:
     commands:
-      - echo "Vérification des fichiers dans CodeBuild..."
+      - "echo 'Vérification des fichiers dans CodeBuild...'"
       - "ls -l"
       - "ls -l Dockerfile"
-      - echo "Vérification des variables d’environnement..."
+      - "echo 'Vérification des variables d’environnement...'"
       - echo "DOCKER_REGISTRY_URL: $DOCKER_REGISTRY_URL"
       - echo "DOCKER_REGISTRY_USERNAME: $DOCKER_REGISTRY_USERNAME"
       - echo "Installation des dépendances..."
