@@ -17,7 +17,7 @@ phases:
     commands:
       - echo "Vérification des fichiers dans CodeBuild..."
       - ls -l
-      - ls -l Dockerfile
+      # - ls -l Dockerfile
       # - echo "Vérification des variables d’environnement..."
       # - echo "DOCKER_REGISTRY_URL: $DOCKER_REGISTRY_URL"
       # - echo "DOCKER_REGISTRY_USERNAME: $DOCKER_REGISTRY_USERNAME"
