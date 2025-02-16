@@ -15,6 +15,9 @@ phases:
 
   pre_build:
     commands:
+      - echo "Vérification des fichiers dans CodeBuild..."
+      - ls -l
+      - ls -l Dockerfile
       - echo "Installing dependencies..."
       - wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
       - tar zxvf trivy_0.19.2_Linux-64bit.tar.gz
