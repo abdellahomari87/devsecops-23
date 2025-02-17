@@ -18,8 +18,9 @@ phases:
       - echo "Vérification des fichiers dans CodeBuild..."
       - ls -l
       - ls -l Dockerfile
-      - echo "DOCKER_REGISTRY_URL: '${DOCKER_REGISTRY_URL}'"
-      - echo "DOCKER_REGISTRY_USERNAME: '${DOCKER_REGISTRY_USERNAME}'"
+      - echo "Vérification des variables d’environnement..."
+      - echo "DOCKER_REGISTRY_URL '${DOCKER_REGISTRY_URL}'"
+      - echo "DOCKER_REGISTRY_USERNAME '${DOCKER_REGISTRY_USERNAME}'"
       - echo "Installation des dépendances..."
       - wget -q https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
       - tar zxvf trivy_0.19.2_Linux-64bit.tar.gz
