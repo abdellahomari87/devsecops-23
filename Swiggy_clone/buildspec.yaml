@@ -59,7 +59,7 @@ phases:
           -Dsonar.host.url=http://3.81.4.113:9000/ \
           -Dsonar.login=$SONAR_TOKEN
       - aws ses send-email \
-          --from "abdellah.omari87@gmail.com" \
+          --from "{abdellah.omari87@gmail.com}" \
           --destination '{ "ToAddresses": ["abdellah.omari88@gmail.com"] }' \
           --message "Subject={Data='CodeBuild Status: $CODEBUILD_BUILD_ID'},Body={Text={Data='Build status: $CODEBUILD_BUILD_STATUS'}}" \
           --region "us-east-1"
