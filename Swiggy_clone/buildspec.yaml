@@ -61,8 +61,9 @@ phases:
       - aws ses send-email \
           --from "abdellah.omari87@gmail.com" \
           --destination "ToAddresses=['abdellah.omari88@gmail.com']" \
-          --message "Subject={Data='CodeBuild Status: $CODEBUILD_BUILD_ID'},Body={Text={Data='Build status: $CODEBUILD_BUILD_STATUS'}}" \
+          --message "Subject={Data='Test SES'},Body={Text={Data='Test d’email depuis AWS SES'}}" \
           --region "us-east-1"
+
 artifacts:
   files:
     - Swiggy_clone/appspec.yaml
