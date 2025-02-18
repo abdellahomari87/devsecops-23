@@ -45,6 +45,7 @@ phases:
       - export SONAR_SCANNER_OPTS="-server"
       - echo "DOCKER_REGISTRY_URL=$DOCKER_REGISTRY_URL"
       - echo "DOCKER_REGISTRY_USERNAME=$DOCKER_REGISTRY_USERNAME"
+      - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin
 
   build:
     commands:
