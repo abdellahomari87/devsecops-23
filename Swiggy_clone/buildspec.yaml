@@ -23,6 +23,8 @@ phases:
       - echo "DOCKER_REGISTRY_USERNAME:${DOCKER_REGISTRY_USERNAME}"
       - echo "Installation des dépendances..."
       - export GITHUB_TOKEN=${GITHUB_TOKEN}
+      - echo "Installation de Trivy..."
+      - wget -q https://github.com/aqu
       - which trivy || echo "Trivy n'est pas installé ou n'est pas dans le PATH"
       - trivy --version
       - trivy filesystem --exit-code 0 --no-progress --token ${GITHUB_TOKEN} . > trivyfilescan.txt
