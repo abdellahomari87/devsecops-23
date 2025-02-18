@@ -27,7 +27,7 @@ phases:
       - wget -qO- https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz | tar xz
       - chmod +x trivy
       - export PATH=$PWD:$PATH
-      - echo "Trivy ajouté au PATH: $PATH"
+      - echo "Trivy ajouté au PATH:$PATH"
       - trivy --version
       - trivy filesystem --exit-code 0 --no-progress --token ${GITHUB_TOKEN} . > trivyfilescan.txt
       - wget -q https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
