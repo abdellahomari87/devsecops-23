@@ -18,6 +18,11 @@ phases:
       - echo "Vérification des fichiers dans CodeBuild..."
       - ls -l
       - ls -l Swiggy_clone/Dockerfile
+      - echo "Vérification des fichiers dans CodeBuild..."
+      - pwd
+      - ls -l
+      - ls -l devsecops-23
+      - ls -l Swiggy_clone
       - echo "Vérification des variables d’environnement..."
       - echo "DOCKER_REGISTRY_URL:${DOCKER_REGISTRY_URL}"
       - echo "DOCKER_REGISTRY_USERNAME:${DOCKER_REGISTRY_USERNAME}"
