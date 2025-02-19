@@ -67,6 +67,7 @@ phases:
       - pwd
       - ls -l
       - ls -l Swiggy_clone
+      - cd /codebuild/output/src1734540257/src/github.com/abdellahomari87/devsecops-23/
       - sonar-scanner -D"sonar.projectKey=swiggy" -D"sonar.sources=$(pwd)/Swiggy_clone" -D"sonar.host.url=http://3.81.4.113:9000" -D"sonar.login=$SONAR_TOKEN"
       - aws ses send-email \
           --from "abdellah.omari87@gmail.com" \
