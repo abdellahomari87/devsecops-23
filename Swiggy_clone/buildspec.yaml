@@ -53,7 +53,7 @@ phases:
       - echo "Building Docker image..."
       - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
       - docker build -t "${DOCKER_REGISTRY_URL%/}/${DOCKER_REGISTRY_USERNAME}/swiggy:latest" -f Swiggy_clone/Dockerfile Swiggy_clone/
-      - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/swiggy:latest"
+      - docker push omari87/swiggy:latest
 
   post_build:
     commands:
