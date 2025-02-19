@@ -13,6 +13,9 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+RUN npx update-browserslist-db@latest
+RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
+
 # Build the React app
 RUN npm run build
 
