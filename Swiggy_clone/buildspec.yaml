@@ -15,7 +15,7 @@ phases:
 
   pre_build:
     commands:
-      - echo "Current directory: $(pwd)"
+      - echo "Current directory:$(pwd)"
       - echo "CodeBuild content after source download..."
       - ls -l
       - echo "CODEBUILD_SRC_DIR = $CODEBUILD_SRC_DIR"
