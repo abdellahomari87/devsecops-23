@@ -15,78 +15,77 @@ phases:
 
   pre_build:
     commands:
-      - echo "Répertoire actuel:$(pwd)"
-      - echo "Contenu de CodeBuild après téléchargement des sources..."
+      - echo "Current directory: $(pwd)"
+      - echo "CodeBuild content after source download..."
       - ls -l
       - echo "CODEBUILD_SRC_DIR = $CODEBUILD_SRC_DIR"
       - ls -l $CODEBUILD_SRC_DIR
-      - echo "Vérification des fichiers dans CodeBuild..."
-      - ls -l
-      - ls -l Swiggy_clone/Dockerfile
-      - echo "Vérification des fichiers dans CodeBuild..."
-      - pwd
-      - ls -l
-      - ls -l $CODEBUILD_SRC_DIR
-      - ls -l $CODEBUILD_SRC_DIR/Swiggy_clone
-      - ls -l Swiggy_clone
-      - echo "Vérification des variables d’environnement..."
-      - echo "DOCKER_REGISTRY_URL:${DOCKER_REGISTRY_URL}"
-      - echo "DOCKER_REGISTRY_USERNAME:${DOCKER_REGISTRY_USERNAME}"
+      # Docker login
       - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin
-      - echo "Installation des dépendances..."
-      - export GITHUB_TOKEN=${GITHUB_TOKEN}
-      - echo "Téléchargement et installation de Trivy..."
-      - wget -qO- https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz | tar xz
-      - chmod +x trivy
-      - export PATH=$PWD:$PATH
-      - echo "Trivy ajouté au PATH:$PATH"
-      - trivy --version
-      - wget -q https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
-      - tar zxvf trivy_0.19.2_Linux-64bit.tar.gz
-      - export PATH=$PWD:$PATH
-      - trivy filesystem --exit-code 0 --no-progress . > trivyfilescan.txt
-      - wget -q https://github.com/jeremylong/DependencyCheck/releases/download/v7.0.2/dependency-check-7.0.2-release.zip
-      - unzip dependency-check-7.0.2-release.zip
-      - export SONAR_SCANNER_VERSION=4.7.0.2747
-      - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
-      - mkdir -p $HOME/.sonar
-      - wget -O $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
-      - unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
-      - export PATH=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux/bin:$PATH
-      - export SONAR_SCANNER_OPTS="-server"
-      - echo "DOCKER_REGISTRY_URL=$DOCKER_REGISTRY_URL"
-      - echo "DOCKER_REGISTRY_USERNAME=$DOCKER_REGISTRY_USERNAME"
-      - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin
+      
+      # Install Trivy
+      - |
+        wget -qO- https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz | tar xz
+        chmod +x trivy
+        export PATH=$PWD:$PATH
+        trivy --version
+        trivy filesystem --exit-code 0 --no-progress . > trivyfilescan.txt
+      
+      # Install Dependency Check
+      - |
+        wget -q https://github.com/jeremylong/DependencyCheck/releases/download/v7.0.2/dependency-check-7.0.2-release.zip
+        unzip dependency-check-7.0.2-release.zip
+      
+      # Install SonarScanner
+      - |
+        export SONAR_SCANNER_VERSION=4.7.0.2747
+        export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
+        mkdir -p $HOME/.sonar
+        wget -O $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
+        unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+        export PATH=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux/bin:$PATH
+        export SONAR_SCANNER_OPTS="-server"
 
   build:
     commands:
-      - echo "Running tests..."
       - echo "Building Docker image..."
-      - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
+      - docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL" < <(echo "$DOCKER_REGISTRY_PASSWORD")
       - docker build -t "${DOCKER_REGISTRY_URL%/}/${DOCKER_REGISTRY_USERNAME}/swiggy:latest" -f Swiggy_clone/Dockerfile Swiggy_clone/
-      - docker push omari87/swiggy:latest
+      - docker push "${DOCKER_REGISTRY_URL%/}/${DOCKER_REGISTRY_USERNAME}/swiggy:latest"
 
   post_build:
     commands:
-      - echo "Performing Trivy image scan after building the image..."
-      - trivy image "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/swiggy:latest" >> trivyimage.txt
+      # Trivy scan
+      - echo "Performing Trivy image scan..."
+      - trivy image "${DOCKER_REGISTRY_URL%/}/${DOCKER_REGISTRY_USERNAME}/swiggy:latest" >> trivyimage.txt
+      
+      # OWASP Dependency Check
       - echo "Running OWASP Dependency-Check scan..."
       - cd dependency-check/bin
       - ./dependency-check.sh --scan . --format ALL
-      - echo "Build completed successfully!"
-      - echo "Running SonarQube analysis result"
-      - pwd
-      - ls -l
-      - ls -l $CODEBUILD_SRC_DIR/Swiggy_clone
+      
+      # SonarQube Analysis
       - cd $CODEBUILD_SRC_DIR
-      - sonar-scanner -D'sonar.projectKey=swiggy' -D'sonar.sources=$(pwd)/Swiggy_clone' -D'sonar.host.url=http://3.81.4.113:9000' -D'sonar.login=$SONAR_TOKEN'
-      - echo "{\"Subject\": {\"Data\": \"Test SES\"}, \"Body\": {\"Text\": {\"Data\": \"Test d’email depuis AWS SES\"}}}" > email.json
-      - aws ses send-email \
+      - |
+        sonar-scanner \
+          -D'sonar.projectKey=swiggy' \
+          -D"sonar.sources=$(pwd)/Swiggy_clone" \
+          -D'sonar.host.url=http://3.81.4.113:9000' \
+          -D"sonar.login=$SONAR_TOKEN"
+      
+      # Send email notification
+      - |
+        echo '{
+          "Subject": {"Data": "Test SES"},
+          "Body": {"Text": {"Data": "Test email from AWS SES"}}
+        }' > email.json
+      - |
+        aws ses send-email \
           --from "abdellah.omari87@gmail.com" \
           --destination '{"ToAddresses":["abdellah.omari88@gmail.com"]}' \
           --message file://email.json \
           --region "us-east-1"
-          
+
 artifacts:
   files:
     - Swiggy_clone/appspec.yaml
