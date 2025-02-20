@@ -89,3 +89,4 @@ phases:
 artifacts:
   files:
     - Swiggy_clone/appspec.yaml
+    - trivyimage.txt
