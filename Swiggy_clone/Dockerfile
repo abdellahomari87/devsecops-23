@@ -7,6 +7,8 @@ WORKDIR /app
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
+RUN apt-get update && apt-get upgrade -y
+
 # Install dependencies
 RUN npm install
 
