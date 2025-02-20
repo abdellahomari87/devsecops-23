@@ -82,10 +82,10 @@ phases:
       - sonar-scanner -D"sonar.projectKey=swiggy" -D"sonar.sources=$(pwd)/Swiggy_clone" -D"sonar.host.url=http://3.81.4.113:9000" -D"sonar.login=$SONAR_TOKEN"
       - aws ses send-email \
           --from "abdellah.omari87@gmail.com" \
-          --destination'{"ToAddresses":["abdellah.omari88@gmail.com"]}' \
-          --message'{
-            "Subject":{"Data": "Test SES"},
-            "Body":{"Text": {"Data": "Test d’email depuis AWS SES"}}
+          --destination' {"ToAddresses":["abdellah.omari88@gmail.com"]}' \
+          --message' {
+            "Subject": {"Data": "Test SES"},
+            "Body": {"Text": {"Data": "Test d’email depuis AWS SES"}}
           }' \
           --region "us-east-1"
           
