@@ -15,6 +15,11 @@ phases:
 
   pre_build:
     commands:
+      - echo "Répertoire actuel : $(pwd)"
+      - echo "Contenu de CodeBuild après téléchargement des sources..."
+      - ls -l
+      - echo "CODEBUILD_SRC_DIR = $CODEBUILD_SRC_DIR"
+      - ls -l $CODEBUILD_SRC_DIR
       - echo "Vérification des fichiers dans CodeBuild..."
       - ls -l
       - ls -l Swiggy_clone/Dockerfile
