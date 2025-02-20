@@ -79,7 +79,7 @@ phases:
       - ls -l
       - ls -l $CODEBUILD_SRC_DIR/Swiggy_clone
       - cd $CODEBUILD_SRC_DIR
-      - sonar-scanner -Dsonar.projectKey=swiggy -Dsonar.sources=$(pwd)/Swiggy_clone -Dsonar.host.url=http://3.81.4.113:9000 -Dsonar.login=$SONAR_TOKEN
+      - sonar-scanner -D'sonar.projectKey=swiggy' -D'sonar.sources=$(pwd)/Swiggy_clone' -D'sonar.host.url=http://3.81.4.113:9000' -D'sonar.login=$SONAR_TOKEN'
       - echo "{\"Subject\": {\"Data\": \"Test SES\"}, \"Body\": {\"Text\": {\"Data\": \"Test d’email depuis AWS SES\"}}}" > email.json
       - aws ses send-email \
           --from "abdellah.omari87@gmail.com" \
