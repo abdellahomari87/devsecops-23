@@ -85,7 +85,7 @@ phases:
           "Body": {"Text": {"Data": "Test d’email depuis AWS SES"}}
         }' > email.json
       - aws ses send-email \
-          --from "abdellah.***@gmail.com" \
+          --from "abdellah.omari87@gmail.com" \
           --destination '{"ToAddresses":["abdellah.omari88@gmail.com"]}' \
           --message file://email.json \
           --region "us-east-1"
