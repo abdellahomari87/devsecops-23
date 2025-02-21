@@ -89,6 +89,6 @@ phases:
 artifacts:
   base-directory: Swiggy_clone
   files:
-    - AppSpec.yaml
+    - appspec.yaml
     - trivyimage.txt
     - trivyfilescan.txt
