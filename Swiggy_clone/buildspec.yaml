@@ -87,7 +87,8 @@ phases:
           --region "us-east-1"
 
 artifacts:
+  base-directory: Swiggy_clone
   files:
-    - Swiggy_clone/appspec.yaml
+    - AppSpec.yaml
     - trivyimage.txt
     - trivyfilescan.txt
