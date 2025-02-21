@@ -1,13 +1,14 @@
 # Use Node.js 16 slim as the base image
 FROM node:18
 
+# Met à jour les paquets pour corriger des vulnérabilités
+RUN apt-get update && apt-get upgrade -y && apt-get clean
+
 # Set the working directory
 WORKDIR /app
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
-
-RUN apt-get update && apt-get upgrade -y
 
 # Install dependencies
 RUN npm install
