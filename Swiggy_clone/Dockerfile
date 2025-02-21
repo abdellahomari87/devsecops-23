@@ -2,7 +2,7 @@
 FROM node:18
 
 # Met à jour les paquets pour corriger des vulnérabilités
-RUN apt-get update && apt-get upgrade -y && apt-get clean
+RUN apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y && apt-get autoremove -y && apt-get clean
 
 # Set the working directory
 WORKDIR /app
