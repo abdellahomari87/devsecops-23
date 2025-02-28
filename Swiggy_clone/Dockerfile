@@ -16,4 +16,4 @@ COPY server/ .
 RUN cp -r /app/client/build /app/server/public  # Remplace COPY --from=0
 
 EXPOSE 3000
-CMD ["node", "app.js"]
+CMD ["node", "App.js"]
