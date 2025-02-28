@@ -2,7 +2,7 @@
   "name": "swiggy-clone",
   "version": "1.0.0",
   "description": "Swiggy clone application",
-  "main": "server.js",  // Pointe vers votre fichier serveur
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "build": "react-scripts build",
@@ -10,12 +10,11 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "express": "^4.18.2",  // Pour le serveur
+    "express": "^4.18.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1"
   },
   "devDependencies": {
-    // Ajoutez d'autres dépendances si nécessaire
   }
 }
