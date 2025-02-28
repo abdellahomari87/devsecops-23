@@ -13,9 +13,7 @@ WORKDIR /app/server
 COPY server/package*.json ./
 RUN npm install
 COPY server/ .
-
-# Serve React build via Express
-COPY --from=0 /app/client/build /app/server/public
+RUN cp -r /app/client/build /app/server/public  # Remplace COPY --from=0
 
 EXPOSE 3000
-CMD ["node", "server.js"]  # Remplacez par votre fichier serveur
+CMD ["node", "app.js"]
